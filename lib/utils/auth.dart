@@ -31,3 +31,8 @@ Future<void> passwordLogin(
     }
   }
 }
+
+void logout(BuildContext context, VoidCallback navigate) async {
+  await auth.signOut();
+  navigate.call();
+}

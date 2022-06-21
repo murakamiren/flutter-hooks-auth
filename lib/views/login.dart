@@ -58,7 +58,7 @@ class LoginView extends HookWidget {
                   err,
                   context,
                   () {
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => const HomeView(),
                       ),
