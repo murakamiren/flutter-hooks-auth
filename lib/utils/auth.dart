@@ -1,19 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpod_hooks/views/home.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
 
-void passwordLogin(ValueNotifier<String> email, ValueNotifier<String> password,
-    ValueNotifier<String> errState) async {
+Future<void> passwordLogin(
+    ValueNotifier<String> email,
+    ValueNotifier<String> password,
+    ValueNotifier<String> errState,
+    BuildContext context,
+    VoidCallback navigate) async {
   try {
     if (email.value == "" || password.value == "") {
       errState.value = "メールまたはパスワードが入力されていません";
       return;
     }
-    await _auth.signInWithEmailAndPassword(
+    await auth.signInWithEmailAndPassword(
       email: email.value,
       password: password.value,
     );
+    errState.value = "";
+    navigate.call();
   } on FirebaseAuthException catch (expE) {
     if (expE.code == "user-not-found") {
       errState.value = "該当するユーザーが見つかりません";

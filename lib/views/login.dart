@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_hooks/utils/auth.dart';
+import 'package:riverpod_hooks/views/home.dart';
 
 class LoginView extends HookWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -27,27 +28,43 @@ class LoginView extends HookWidget {
                 err.value,
                 style: TextStyle(color: Colors.red.shade400),
               ),
+            if (err.value != "")
+              const SizedBox(
+                height: 10,
+              ),
             TextField(
-              decoration: InputDecoration(hintText: "email"),
+              decoration: const InputDecoration(hintText: "email"),
               onChanged: (i) {
                 email.value = i;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             TextField(
-              decoration: InputDecoration(hintText: "password"),
+              decoration: const InputDecoration(hintText: "password"),
               onChanged: (i) {
                 password.value = i;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             ElevatedButton(
-              onPressed: () {
-                passwordLogin(email, password, err);
+              onPressed: () async {
+                await passwordLogin(
+                  email,
+                  password,
+                  err,
+                  context,
+                  () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const HomeView(),
+                      ),
+                    );
+                  },
+                );
               },
               child: const Text("login"),
             ),
