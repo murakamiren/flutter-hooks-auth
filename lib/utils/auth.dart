@@ -4,6 +4,32 @@ import 'package:riverpod_hooks/views/home.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
+Future<void> passwordSignUp(
+    ValueNotifier<String> email,
+    ValueNotifier<String> password,
+    ValueNotifier<String> err,
+    BuildContext context,
+    VoidCallback navigate) async {
+  try {
+    if (email.value == "" || password.value == "") {
+      err.value = "メールまたはパスワードが入力されていません";
+      return;
+    }
+    await auth.createUserWithEmailAndPassword(
+        email: email.value, password: password.value);
+    err.value = "";
+    navigate.call();
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      err.value = "パスワードが弱いです";
+    } else if (e.code == 'email-already-in-use') {
+      err.value = "このメールは既に使われています";
+    }
+  } catch (e) {
+    err.value = "oops! 何かがおかしいです";
+  }
+}
+
 Future<void> passwordLogin(
     ValueNotifier<String> email,
     ValueNotifier<String> password,
