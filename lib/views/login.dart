@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_hooks/utils/auth.dart';
 import 'package:riverpod_hooks/views/home.dart';
+import 'package:riverpod_hooks/views/signup.dart';
 
 class LoginView extends HookWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -73,7 +74,13 @@ class LoginView extends HookWidget {
               child: const Text("もしくは"),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SignUpView(),
+                  ),
+                );
+              },
               child: const Text("アカウントを作成する"),
             )
           ],
