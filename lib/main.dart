@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:riverpod_hooks/utils/auth.dart';
 import 'package:riverpod_hooks/views/home.dart';
 import "package:firebase_core/firebase_core.dart";
 import 'package:riverpod_hooks/views/login.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginView(),
+      home: auth.currentUser == null ? const LoginView() : const HomeView(),
     );
   }
 }
