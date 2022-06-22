@@ -20,6 +20,7 @@ class SignUpView extends HookWidget {
           color: Colors.black,
         ),
       ),
+      extendBodyBehindAppBar: true,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
