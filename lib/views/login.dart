@@ -13,6 +13,7 @@ class LoginView extends HookWidget {
     final email = useState("");
     final password = useState("");
     final err = useState("");
+    final isLoading = useState(false);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,22 +53,28 @@ class LoginView extends HookWidget {
               height: 60,
             ),
             ElevatedButton(
-              onPressed: () async {
-                await passwordLogin(
-                  email,
-                  password,
-                  err,
-                  context,
-                  () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const HomeView(),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: const Text("login"),
+              onPressed: isLoading.value
+                  ? null
+                  : () async {
+                      isLoading.value = true;
+                      await passwordLogin(
+                        email,
+                        password,
+                        err,
+                        context,
+                        () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const HomeView(),
+                            ),
+                          );
+                        },
+                      );
+                      isLoading.value = false;
+                    },
+              child: isLoading.value
+                  ? const Text("loading...")
+                  : const Text("ログイン"),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
